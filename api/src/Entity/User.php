@@ -26,15 +26,15 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
-    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"default"="ROLE_USER"})
+     */
+    private $roles;
 
     public function getId(): ?int
     {
@@ -63,14 +63,16 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        if(!empty($this->roles)) {
+            $roles[] = $this->roles;
+        }
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(string $roles): self
     {
         $this->roles = $roles;
 
@@ -97,7 +99,11 @@ class User implements UserInterface
      */
     public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        if(getenv('AUTH_SALT')) {
+            return getenv('AUTH_SALT');
+        } else {
+            return '';
+        }
     }
 
     /**
