@@ -1,0 +1,5 @@
+lexik_jwt_authentication:
+    secret_key: '%env(resolve:JWT_SECRET_KEY)%'
+    public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
+    pass_phrase: 'f39da579fdce56ef35f08032971bde23'
+    token_ttl: 3600

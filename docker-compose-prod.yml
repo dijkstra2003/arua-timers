@@ -1,0 +1,83 @@
+version: '3.4'
+
+services:
+  php:
+    image: dockerregistry-acc.mcapp.nl/admin-app/php
+    depends_on:
+      - db
+    environment:
+       - APP_ENV=prod
+       - APP_SECRET=!ChangeMe!
+       - TRUSTED_PROXIES=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+       - TRUSTED_HOSTS=^localhost|api$$
+       - DATABASE_USER=mis
+       - DATABASE_PASSWORD=ahchohG8eeng
+       - DATABASE_NAME=snapshot_9175_luc-aa-new_autodata-dev-regression-mhc_mcepd_nl
+       - DATABASE_HOST=medic-dev-db-p01.sc-int.nines.nl
+       - DATABASE_PORT=3306
+       - DATABASE_URL=mysql://mis:ahchohG8eeng@medic-dev-db-p01.sc-int.nines.nl:3306/snapshot_9175_luc-aa-new_autodata-dev-regression-mhc_mcepd_nl
+       - CORS_ALLOW_ORIGIN=^https?://localhost(:[0-9]+)?$$
+       - VARNISH_URL=http://cache-proxy
+       - JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+       - JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+       - JWT_PASSPHRASE=f39da579fdce56ef35f08032971bde23
+       - AUTH_SALT=FyhjUi873jNHhK
+       - ERROR_LOG=api/temp/mcis.err
+       - LOG_FILE_LOCATION=/var/log/
+       - MEDICORE_USERNAME=medicore
+
+  api:
+    image: dockerregistry-acc.mcapp.nl/admin-app/nginx
+    depends_on:
+      - php
+    ports:
+      - "8080:80"
+
+  cache-proxy:
+    image: dockerregistry-acc.mcapp.nl/admin-app/varnish
+    depends_on:
+      - api
+    ports:
+      - "8081:80"
+
+  db:
+    image: dockerregistry-acc.mcapp.nl/admin-app/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: "api"
+      MYSQL_USER: "api-platform"
+      MYSQL_PASSWORD: "medicore"
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    command: --sql_mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"  
+
+
+  client:
+    # Use a static website hosting service in production
+    # See https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment
+    image: dockerregistry-acc.mcapp.nl/admin-app/client
+    ports:
+      - "80:3000"
+    environment: 
+       - REACT_APP_API_ENTRYPOINT=http://localhost:8080
+       - API_PLATFORM_CLIENT_GENERATOR_ENTRYPOINT=http://api
+       - API_PLATFORM_CLIENT_GENERATOR_OUTPUT=src/api-platform
+
+
+  h2-proxy:
+    # Don't use this proxy in prod mode
+    image: dockerregistry-acc.mcapp.nl/admin-app/h2-proxy
+    depends_on:
+      - client
+      - api
+      - cache-proxy
+    ports:
+      - "443:443"
+      - "8443:8443"
+      - "8444:8444"
+
+volumes:
+  db-data: {}
