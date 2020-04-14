@@ -1,7 +1,7 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\Doctrine\ActinidiumUser:
+        App\Entity\User:
             id: App\PasswordEncoder
     
     role_hierarchy:
@@ -10,7 +10,7 @@ security:
     providers:
         database:
             entity:
-                class: App\Entity\Doctrine\ActinidiumUser
+                class: App\Entity\User
                 property: username
     firewalls:
         dev:

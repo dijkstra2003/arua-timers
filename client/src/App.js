@@ -40,15 +40,17 @@ class App extends React.Component {
 			const jwtToken = window.sessionStorage.getItem('jwtToken');
 			const isAuth = checkAdminUserRole(jwtToken);
 			return (
-					<div className="app">
-						{isAuth ?
-						<div>
-							<Header isAuth={isAuth}/>
-							<Switch>
-								{/* Add your routes here */}								
-							</Switch>
-						</div>
-						: <Route component={LoginForm}/> }
+					// <div className="app">
+					// 	{isAuth ?
+					// 	<div>
+					// 		<Switch>
+					// 			{/* Add your routes here */}								
+					// 		</Switch>
+					// 	</div>
+					// 	: <Route component={LoginForm}/> }
+					// </div>
+					<div>
+						Hello World
 					</div>
 			)
 	}

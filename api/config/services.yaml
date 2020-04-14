@@ -5,11 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
-services:
-    App\Repository\Doctrine\ActinidiumSettingRepository:
-        class: 'App\Repository\Doctrine\ActinidiumSettingRepository'
-        autowire: true
-    
+services:    
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

@@ -56,12 +56,12 @@ services:
       - "8081:80"
 
   db:
-    image: mysql
+    image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: "api"
-      MYSQL_USER: "api-platform"
-      MYSQL_PASSWORD: "medicore"
+      MYSQL_DATABASE: "arua"
+      MYSQL_USER: "luc"
+      MYSQL_PASSWORD: "dijkstra"
       MYSQL_ROOT_PASSWORD: "root"
     ports:
       - "3306:3306"
