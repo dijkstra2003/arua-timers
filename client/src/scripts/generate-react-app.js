@@ -39,7 +39,7 @@ ls.on('close', (code) => {
 });
 
 function getComponents() {
-    const dir = 'src/api-platform/components';
+    const dir = 'src/components';
     var components = []
     fs.readdirSync(dir).forEach(component => {
         components.push(component);
@@ -73,12 +73,12 @@ function createDefaultCss(files) {
 
 function addCssImports(components, files, cssFiles) {
     components.forEach(comp => {
-        var dir = 'src/api-platform/components/' + comp + '/';
+        var dir = 'src/components/' + comp + '/';
         files.forEach(file => {
             var data = fs.readFileSync(dir + file);
-            if(!data.includes("import '../../../styles/" + cssFiles[files.indexOf(file)])) {
+            if(!data.includes("import '../../styles/" + cssFiles[files.indexOf(file)])) {
                 var fd = fs.openSync(dir + file, 'w+');
-                var buffer = new Buffer("import '../../../styles/" + cssFiles[files.indexOf(file)] + "'; \n");
+                var buffer = new Buffer("import '../../styles/" + cssFiles[files.indexOf(file)] + "'; \n");
 
                 fs.writeSync(fd, buffer, 0, buffer.length, 0)
                 fs.writeSync(fd, data, 0, data.length, buffer.length);
@@ -92,18 +92,18 @@ function editAppJs(components)
     var file = 'src/App.js';
     components.forEach(comp => {
         var data = fs.readFileSync(file).toString();
-        if(!data.includes(  "import " + comp + "Routes from './api-platform/routes/" + comp + "'"))
+        if(!data.includes(  "import " + comp + "Routes from './routes/" + comp + "'"))
         {
             data = data.replace(
                 "// Import your routes here",
                 "// Import your routes here \n" +
-                "import " + comp + "Routes from './api-platform/routes/" + comp + "';");
+                "import " + comp + "Routes from './routes/" + comp + "';");
         }
         
         if(!data.includes("{"+comp + "Routes},")) {
             data = data.replace(
                 "{/* Add your routes here */}",
-                "{/* Add your routes here */}\n\t\t\t\t\t\t\t\t" +
+                "{/* Add your routes here */}\n\t\t\t\t\t\t\t\t\t" +
                 "{"+comp + "Routes},"
             )
         }
@@ -120,11 +120,11 @@ function editReducersJs(components)
     var file = 'src/reducers.js';
     components.forEach(comp => {
         var data = fs.readFileSync(file).toString();
-        if(!data.includes("import " + comp + " from './api-platform/reducers/" + comp)){
+        if(!data.includes("import " + comp + " from './reducers/" + comp)){
             data = data.replace(
                 "// Import your reducers here",
                 "// Import your reducers here \n" +
-                "import " + comp + " from './api-platform/reducers/" + comp + "/';");
+                "import " + comp + " from './reducers/" + comp + "/';");
         }
         if(!data.includes("\t" + comp + ",")) {
             data = data.replace(
@@ -144,7 +144,7 @@ function editReducersJs(components)
 function parseToInt()
 {
     // parse={value => Number(value)}
-    const dir = 'src/api-platform/components/';
+    const dir = 'src//components/';
     var components = []
     fs.readdirSync(dir).forEach(component => {
         components.push(component);
@@ -169,7 +169,7 @@ function parseToInt()
 
 function importDataAccess() {
     console.log('Importing dataAcces file...');
-    const dir = 'src/api-platform/actions/';
+    const dir = 'src/actions/';
     var dirs = [];
     fs.readdirSync(dir).forEach(d => {
         dirs.push(d);
@@ -185,7 +185,7 @@ function importDataAccess() {
             if(data.includes("from '../../utils/dataAccess';")) {
                 data = data.replace(
                     "from '../../utils/dataAccess';",
-                    "from '../../../utils/dataAccess';")
+                    "from '../../utils/dataAccess';")
             }
 
             fs.writeFileSync(f, data, function(err, data){
