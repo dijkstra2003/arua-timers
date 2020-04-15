@@ -23,7 +23,8 @@ var componentFiles = [
 
 var wrongComponents = [
     'login',
-    'dashboard'
+    'dashboard',
+    'shared'
 ]
 
 console.log('Generating components...');

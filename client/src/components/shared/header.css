@@ -1,0 +1,20 @@
+.navbar {
+    color: var(--light-gray);
+    background-color: var(--gray);
+}
+
+.navbar a {
+    color: var(--light-gray);
+    text-decoration: none;
+    padding: 10px;
+}
+
+.navbar a:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.navbar-text {
+    position: absolute;
+    right: 5px;
+}

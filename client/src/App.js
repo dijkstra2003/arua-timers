@@ -5,6 +5,8 @@ import {checkAdminUserRole} from './utils/jwtTokenReader';
 import './styles/styles.css';
 import history from './history';
 import Login from './components/login/login';
+import Dashboard from './components/dashboard/dashboard';
+import Header from './components/shared/header';
 // Import your routes here 
 import userRoutes from './routes/user'; 
 import monsterRoutes from './routes/monster'; 
@@ -48,12 +50,14 @@ class App extends React.Component {
 					<div className="app">
 						{isAuth ? 
 							<div>
+								<Header isAuth={isAuth}/>
 								<Switch>
 									{/* Add your routes here */}
 									{userRoutes},
 									{monsterRoutes},
 									{mapRoutes},
-									<Route path="/login" component={Login}/>,
+									<Route path="/home" component={Dashboard}/>,
+									<Route path="/" component={Dashboard}/>,
 								</Switch>
 							</div> : <Route component={Login}/>
 						}

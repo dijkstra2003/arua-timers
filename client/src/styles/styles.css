@@ -1,1 +1,27 @@
-/* CSS FILE update.css */
+@import './fonts.css';
+:root {
+    --gray: rgb(50, 50, 50);
+    --medium-gray: rgb(87, 89, 100);
+    --light-gray: rgb(175, 176, 185);
+    --accent-color: rgb(254, 162, 10);
+}
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100%;
+    height: 100vh;
+    background-color: rgb(245, 245, 245);
+}
+
+/** default media queries */
+@media screen and (max-width: 992px) {
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 576px) {
+}

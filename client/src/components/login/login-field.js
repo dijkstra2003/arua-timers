@@ -4,11 +4,12 @@ import './login.css';
 
 export const renderField = ({input, label, type, icon, meta:{error}}) => {
     return(
-        <div className="input-group form-group justify-content-center">
+        <div className="input-group justify-content-center mb-2">
             <div className="input-group-prepend">
                 <span className="input-group-text"><FontAwesomeIcon icon={icon}/></span>
             </div>
-            <input {...input} type={type} placeholder={label}/>
+            
+            <input {...input} type={type} placeholder={label} className="form-control"/>
         </div>
     )
 }

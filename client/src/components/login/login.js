@@ -38,13 +38,11 @@ class Login extends React.Component {
         const {handleSubmit} = this.props;
         return(
             <div className="text-center login overflow-hidden">
-                <div className="card">
                     <LoginCard
                         onSubmit={handleSubmit(this.onSubmitLogin)}
                         onChangeField={this.onChangeField}
                         isLoading={this.props.isLoading}
                     />
-                </div>
             </div>
         )
     }
