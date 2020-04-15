@@ -21,6 +21,11 @@ var componentFiles = [
     'index.js'
 ]
 
+var wrongComponents = [
+    'login',
+    'dashboard'
+]
+
 console.log('Generating components...');
 const ls = spawn('generate-api-platform-client');
 ls.stdout.on('data', (data) => {});
@@ -42,8 +47,12 @@ function getComponents() {
     const dir = 'src/components';
     var components = []
     fs.readdirSync(dir).forEach(component => {
-        components.push(component);
+        if(!wrongComponents.includes(component)) {
+            components.push(component);
+        }
     });
+
+    console.log(components);
 
     return components
 }
@@ -144,10 +153,12 @@ function editReducersJs(components)
 function parseToInt()
 {
     // parse={value => Number(value)}
-    const dir = 'src//components/';
+    const dir = 'src/components/';
     var components = []
     fs.readdirSync(dir).forEach(component => {
-        components.push(component);
+        if(!wrongComponents.includes(component)) {
+            components.push(component);
+        }
     });
 
     components.forEach(comp => {

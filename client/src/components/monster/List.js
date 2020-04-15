@@ -64,6 +64,7 @@ class List extends Component {
               <th>id</th>
               <th>name</th>
               <th>respawnTime</th>
+              <th>lastSpawn</th>
               <th>map</th>
               <th colSpan={2} />
             </tr>
@@ -79,6 +80,7 @@ class List extends Component {
                   </th>
                   <td>{item['name']}</td>
                   <td>{item['respawnTime']}</td>
+                  <td>{item['lastSpawn']}</td>
                   <td>{this.renderLinks('maps', item['map'])}</td>
                   <td>
                     <Link to={`show/${encodeURIComponent(item['@id'])}`}>

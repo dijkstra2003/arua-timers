@@ -14,8 +14,8 @@ export default combineReducers({
     router: connectRouter(history),
     form,
     /* Add your reducers here */
+	map,
+	login,
 	user,
 	monster,
-    map,
-    login,
 })

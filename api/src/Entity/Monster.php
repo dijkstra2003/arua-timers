@@ -29,6 +29,11 @@ class Monster
     private $respawn_time;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $last_spawn;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Map", inversedBy="monsters")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -59,6 +64,18 @@ class Monster
     public function setRespawnTime(\DateTimeInterface $respawn_time): self
     {
         $this->respawn_time = $respawn_time;
+
+        return $this;
+    }
+
+    public function getLastSpawn(): ?\DateTimeInterface
+    {
+        return $this->last_spawn;
+    }
+
+    public function setLastSpawn(\DateTimeInterface $last_spawn): self
+    {
+        $this->last_spawn = $last_spawn;
 
         return $this;
     }

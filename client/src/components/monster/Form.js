@@ -60,6 +60,12 @@ class Form extends Component {
         />
         <Field
           component={this.renderField}
+          name="lastSpawn"
+          type="dateTime"
+          placeholder=""
+        />
+        <Field
+          component={this.renderField}
           name="map"
           type="text"
           placeholder=""

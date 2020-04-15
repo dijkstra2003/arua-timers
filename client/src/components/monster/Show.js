@@ -78,6 +78,10 @@ class Show extends Component {
                 <td>{item['respawnTime']}</td>
               </tr>
               <tr>
+                <th scope="row">lastSpawn</th>
+                <td>{item['lastSpawn']}</td>
+              </tr>
+              <tr>
                 <th scope="row">map</th>
                 <td>{this.renderLinks('maps', item['map'])}</td>
               </tr>
