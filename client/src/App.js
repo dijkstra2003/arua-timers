@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {checkAdminUserRole} from './utils/jwtTokenReader';
 import './styles/styles.css';
 import history from './history';
+import Login from './components/login/login';
 // Import your routes here 
 import userRoutes from './routes/user'; 
 import monsterRoutes from './routes/monster'; 
@@ -44,18 +45,17 @@ class App extends React.Component {
 			const jwtToken = window.sessionStorage.getItem('jwtToken');
 			const isAuth = checkAdminUserRole(jwtToken);
 			return (
-					<div>
-						{isAuth ?
+					<div className="app">
+						{isAuth ? 
 							<div>
 								<Switch>
 									{/* Add your routes here */}
 									{userRoutes},
 									{monsterRoutes},
 									{mapRoutes},
+									<Route path="/login" component={Login}/>,
 								</Switch>
-							</div>
-							: 
-							<div>Hello World</div>
+							</div> : <Route component={Login}/>
 						}
 					</div>
 			)

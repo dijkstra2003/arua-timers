@@ -6,6 +6,7 @@ import { connectRouter } from 'connected-react-router';
 import user from './reducers/user/'; 
 import monster from './reducers/monster/'; 
 import map from './reducers/map/'; 
+import login from './reducers/login/login';
 
 const history = createBrowserHistory();
 
@@ -15,5 +16,6 @@ export default combineReducers({
     /* Add your reducers here */
 	user,
 	monster,
-	map,
+    map,
+    login,
 })
