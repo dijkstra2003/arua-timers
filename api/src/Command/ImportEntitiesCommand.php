@@ -18,39 +18,6 @@ class ImportEntitiesCommand extends Command
 {
     protected static $defaultName = 'app:import:entities';
     private $timerActivated = false;
-    private $fullAccessTables = [
-        'ActinidiumSetting.php',
-        'Klantsettings.php',
-        'FeatureActief.php'
-    ];
-
-    private $tables = [
-        'appointment',
-        'appointmentparticipation',
-        'appointmentreferraltype',
-        'assurantieNL',
-        'employee',
-        'employee_clinic',
-        'externalregistrationworkliststatus',
-        'factuur',
-        'feature_actief',
-        'holding',
-        'invoice',
-        'invoiceclinic',
-        'invoiceinsurance',
-        'invoicepatient',
-        'invoicedebtor',
-        'klantsettings',
-        'kliniek',
-        'log_objectid',
-        'log',
-        'logtypehandmatig',
-        'maatschappijpakket',
-        'medewerker',
-        'participant',
-        'patient',
-        'syslog',
-    ];
 
     public function __construct(bool $requirePasword = false)
     {
@@ -114,12 +81,6 @@ class ImportEntitiesCommand extends Command
             'host' => $dbHost,
         ];
 
-        $this->createConnection();
-        $this->time_pre = microtime(true);
-        $this->tables = $this->retrieveTableNames();
-        $queries = $this->retrieveCreateQueries($this->tables);
-        $this->createTables($queries);
-        $this->addPrimaryKeys();
         $this->createEntitieAndMapping();
         $this->output->writeln('');       
     }
@@ -233,17 +194,14 @@ class ImportEntitiesCommand extends Command
         $this->output->writeln('Creating entities....');
         $useStatement = 'use ApiPlatform\Core\Annotation\ApiResource;';
         $apiResourceTag = ' * @ApiResource';
-        $apiResourceReadOnlyTag = ' * @ApiResource(
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}}
- * )';
-        $repositoryTag = '@ORM\Entity(repositoryClass="App\Repository\Doctrine';
 
-        shell_exec('bin/console doctrine:mapping:import App\\\Entity\\\Doctrine annotation --path=src/Entity/Doctrine');
+        $repositoryTag = '@ORM\Entity(repositoryClass="App\Repository';
+
+        shell_exec('bin/console doctrine:mapping:import App\\\Entity annotation --path=src/Entity');
 
         $this->showTime();
         $this->output->writeln('Adding @ApiResource tag....');
-        $path = 'src/Entity/Doctrine';
+        $path = 'src/Entity';
         $entities = scandir($path);
         
         foreach($entities as $e)
@@ -257,11 +215,7 @@ class ImportEntitiesCommand extends Command
                 }
 
                 if(strpos($fileContent, $apiResourceTag) == false) {
-                    if(in_array($e, $this->fullAccessTables)) {
-                        $fileContent = str_replace(" * @ORM\Entity", " * @ORM\Entity \r\n" . $apiResourceTag, $fileContent);
-                    } else {
-                        $fileContent = str_replace(" * @ORM\Entity", " * @ORM\Entity \r\n" . $apiResourceReadOnlyTag, $fileContent);
-                    }
+                    $fileContent = str_replace(" * @ORM\Entity", " * @ORM\Entity \r\n" . $apiResourceTag, $fileContent);
                 }
 
                 if(strpos($fileContent, $repositoryTag) == false) {
@@ -277,7 +231,7 @@ class ImportEntitiesCommand extends Command
         shell_exec('bin/console make:entity --regenerate App');
         $this->showTime();
         $this->output->writeln('Creating mappings....');
-        shell_exec("bin/console doctrine:mapping:import App\\Entity\\Doctrine --path=src/Mapping/Doctrine");
+        shell_exec("bin/console doctrine:mapping:import App\\Entity --path=src/Mapping");
         $this->showTime();
     }
 
