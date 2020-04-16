@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { login } from '../../actions/login/login';
+import { create } from '../../actions/user/create';
 import PropTypes from 'prop-types';
 import LoginCard from './login-card';
+import { hashPassword } from '../../utils/passwordHasher';
 import './login.css';
 
 class Login extends React.Component {
@@ -12,7 +14,8 @@ class Login extends React.Component {
 
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            passwordCheck: ''
         }
 
         this.onChangeField = this.onChangeField.bind(this);
@@ -31,7 +34,16 @@ class Login extends React.Component {
     }
 
     onSubmitLogin() {
-        this.props.login(this.state);
+        if(this.state.passwordCheck === '') {
+            const { username, password } = this.state;
+            this.props.login({username, password});
+        } else {
+            var { username, password, passwordCheck } = this.state
+            if(password === passwordCheck) {
+                password = hashPassword(password)
+                this.props.create({username, password});
+            }
+        }
     }
 
     render() {
@@ -49,7 +61,8 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = {
-    login
+    login,
+    create
 };
 
 const mapStateToProps = state => ({

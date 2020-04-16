@@ -1,0 +1,17 @@
+.monster-card {
+    text-align: center;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 1.2em;
+    padding: 10px;
+}
+
+.reset {
+    font-size: 2.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

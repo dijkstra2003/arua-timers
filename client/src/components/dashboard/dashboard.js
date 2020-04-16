@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { list, reset } from '../../actions/monster/list';
+import './dashboard.css';
+import MonsterCard from './monster-card';
 
 class Dashboard extends React.Component {
-    static propTypes = {
+  static propTypes = {
         retrieved: PropTypes.object,
         loading: PropTypes.bool.isRequired,
         error: PropTypes.string,
@@ -33,10 +35,29 @@ class Dashboard extends React.Component {
         this.props.reset(this.props.eventSource);
       }
 
+      renderLinks = (type, items) => {
+        if (Array.isArray(items)) {
+          return items.map((item, i) => (
+            <div key={i}>{this.renderLinks(type, item)}</div>
+          ));
+        }
+      }
+
+      triggerRender() {
+        window.location.reload();
+      }
+
       render() {
           return(
-              <div>
-                  Dashboard Page
+              <div className="row m-0">
+                  {this.props.retrieved &&
+                  this.props.retrieved['hydra:member'].map(item => (
+                    <MonsterCard 
+                      monster={item} 
+                      key={item['@id']}
+                      reRender={() => { this.triggerRender()} }
+                    />
+                  ))}           
               </div>
           )
       }    
