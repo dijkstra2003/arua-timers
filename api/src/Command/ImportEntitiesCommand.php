@@ -47,7 +47,7 @@ class ImportEntitiesCommand extends Command
         $helper = $this->getHelper('question');
         $rsm = new ResultSetMapping();
         
-        $isUsingLiveDatabase = new Question('Are you using an MC-EPD database in your .env file? (yes/no) ');
+        $isUsingLiveDatabase = new Question('Are you using an production database in your .env file? (yes/no) ');
         
         $isUsingLiveDatabase = $helper->ask($input, $this->output, $isUsingLiveDatabase);
         if($isUsingLiveDatabase !== 'no') {
