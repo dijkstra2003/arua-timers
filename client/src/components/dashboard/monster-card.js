@@ -29,7 +29,7 @@ class MonsterCard extends React.Component {
                                 <div className="title">{this.props.monster['name']}</div>
                                 next boss: {
                                     moment(this.props.monster['lastSpawn'])
-                                    .add(-2, 'hours')
+                                    .add(-4, 'hour')
                                     .add(moment(this.props.monster['respawnTime']).get('hour'), 'hour')
                                     .add(moment(this.props.monster['respawnTime']).get('minute'), 'minute')
                                     .add(moment(this.props.monster['respawnTime']).get('second'), 'second')
